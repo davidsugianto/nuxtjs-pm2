@@ -10,6 +10,7 @@ services:
 
   nuxt:
     container_name: nuxt
+    hostname: nuxt
     build:
       context: ./docker
     restart: always
@@ -30,8 +31,9 @@ services:
 
   httpd:
     container_name: nginx
+    hostname: nginx
     image: bitnami/nginx:${NGINX_VERSION}-${OS_VERSION}
-    user: ${ENV_DOCKER_USER}:${ENV_DOCKER_GROUP}
+    user: root:root
     restart: always
     environment:
       - 'TZ=${TIMEZONE}'
