@@ -1,0 +1,48 @@
+---
+
+version: '3.1'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+
+  nuxt:
+    container_name: nuxt
+    build:
+      context: ./docker
+    restart: always
+    user: root:root
+    environment:
+      - 'TZ=${TIMEZONE}'
+      - 'PROJECT_DIR=${NUXTJS_DIR}-staging'
+      - 'NODE_ENV=${NODE_ENV}'
+      - 'NODE_PORT=${NODE_PORT}'
+      - 'SERVER_PATH_FILE=${SERVER_PATH_FILE}'
+      - 'APP_NAME=${NUXTJS_APP}'
+    networks:
+      - app-tier
+    expose:
+      - '3000'
+    volumes:
+      - ./public-html:/app:rw
+
+  httpd:
+    container_name: nginx
+    image: bitnami/nginx:${NGINX_VERSION}-${OS_VERSION}
+    user: ${ENV_DOCKER_USER}:${ENV_DOCKER_GROUP}
+    restart: always
+    environment:
+      - 'TZ=${TIMEZONE}'
+    depends_on:
+      - nuxt-app
+    networks:
+      - app-tier
+    ports:
+      - '80:8080'
+      - '443:8443'
+    volumes:
+      - ./config/nginx/vhost:/opt/bitnami/nginx/conf/vhosts:ro
+      - ./logs/nginx/${NGINX_VERSION}:/opt/bitnami/nginx/logs:rw
+      - ./public-html:/app:rw
