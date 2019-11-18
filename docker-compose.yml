@@ -7,7 +7,6 @@ networks:
     driver: bridge
 
 services:
-
   nuxt:
     container_name: nuxt
     hostname: nuxt
@@ -17,7 +16,7 @@ services:
     user: root:root
     environment:
       - 'TZ=${TIMEZONE}'
-      - 'PROJECT_DIR=${NUXTJS_DIR}-staging'
+      - 'PROJECT_DIR=${NUXTJS_DIR}'
       - 'NODE_ENV=${NODE_ENV}'
       - 'NODE_PORT=${NODE_PORT}'
       - 'SERVER_PATH_FILE=${SERVER_PATH_FILE}'
@@ -38,7 +37,7 @@ services:
     environment:
       - 'TZ=${TIMEZONE}'
     depends_on:
-      - nuxt-app
+      - nuxt
     networks:
       - app-tier
     ports:
