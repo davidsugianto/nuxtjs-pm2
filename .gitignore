@@ -12,7 +12,7 @@
 ######################################
 # CUSTOM
 ######################################
-public-html/*
+#public-html/*
 !public-html/.keepfile
 logs/nginx/*
 !logs/nginx/.keepfile

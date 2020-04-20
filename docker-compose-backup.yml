@@ -8,19 +8,26 @@ services:
   nuxt:
     container_name: nuxt
     hostname: nuxt
-    # build:
-    #   context: ./public-html/nuxt
-    # image: idiots718/nuxtjs-basic-ssr:latest
-    image: registry.gitlab.com/picasso-code/nuxt-js-basic-ssr:latest
+    build:
+      context: ./docker
     restart: unless-stopped
     user: root:root
     environment:
-      - NODE_PORT=3000
-      - BUILD_FLAG=staging
+      - 'TZ=${TIMEZONE}'
+      - 'PROJECT_DIR=${NUXTJS_DIR}'
+      - 'NODE_ENV=${NODE_ENV}'
+      - 'NODE_PORT=${NODE_PORT}'
+      - 'SERVER_PATH_STAGING=${SERVER_PATH_FILE}'
+      - 'SERVER_PATH_PRODUCTION=${SERVER_PATH_FILE}'
+      - 'STAGING_APP=${STAGING_APP}'
+      - 'PRODUCTION_APP=${PRODUCTION_APP}'
+      - 'BUILD_FLAG=staging'
     networks:
       - app-tier
     expose:
       - '3000'
+    volumes:
+      - ./public-html:/app:rw
 
   httpd:
     container_name: nginx
@@ -41,4 +48,3 @@ services:
       - ./config/nginx/vhost:/opt/bitnami/nginx/conf/vhosts:rw
       - ./logs/nginx/${NGINX_VERSION}:/opt/bitnami/nginx/logs:rw
       - ./public-html:/app:rw
-
