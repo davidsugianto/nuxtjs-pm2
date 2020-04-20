@@ -1,0 +1,26 @@
+stages:
+  - build
+  - deploy
+
+build_apps:
+  stage: build
+  script:
+    - echo "$CI_PASSWORD" | docker login $CI_REGISTRY --username $CI_USERNAME --password-stdin
+    - docker build -t $CI_REGISTRY/$CI_REPO_PATH/$CI_REPO_NAME .
+    - docker push $CI_REGISTRY/$CI_REPO_PATH/CI_REPO_NAME
+  only:
+    - staging
+  tags:
+    - shell
+
+deploy_apps:
+  variables:
+    GIT_STRATEGY: none
+    GIT_CHECKOUT: "false"
+  stage: deploy
+  script:
+    - echo "deploy production"
+  only:
+    - staging
+  tags:
+    - shell
