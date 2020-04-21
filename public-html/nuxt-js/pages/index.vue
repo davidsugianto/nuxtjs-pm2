@@ -3,10 +3,10 @@
     <div>
       <logo />
       <h1 class="title">
-        nuxtjs-basic-ssr
+        Kubernetes CI/CD with Argo CD test v3
       </h1>
       <h2 class="subtitle">
-        My great Nuxt.js project
+        My great Nuxt.js project in Kubernetes Cluster
       </h2>
       <div class="links">
         <a
