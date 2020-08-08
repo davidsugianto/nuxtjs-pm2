@@ -8,10 +8,9 @@ services:
   nuxt:
     container_name: nuxt
     hostname: nuxt
-    # build:
-    #   context: ./public-html/nuxt
-    # image: idiots718/nuxtjs-basic-ssr:latest
-    image: registry.gitlab.com/picasso-code/nuxt-js-basic-ssr:latest
+    build:
+      context: ./public-html/nuxt
+    image: idiots718/nuxtjs-basic-ssr:latest
     restart: unless-stopped
     user: root:root
     environment:
